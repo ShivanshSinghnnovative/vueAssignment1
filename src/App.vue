@@ -1,20 +1,18 @@
 <template>
-  <div class="x">
-    <div class="name">Name:<input type="text" placeholder="enter name" v-model="name"></div>
-    <div class="name">Address:<input type="text" placeholder="enter address" v-model="address"></div>
-    <div class="name">DOB:<input type="date" id="dateinput" placeholder="enter DOB" v-model="year"></div>
-    <div class="name">Image URL:<input type="text" placeholder="enter image URL" v-model="imageUrl"></div>
+  <div class="bigbox">
+    <div class="name">Name : {{ name }}</div>
+    <div class="name">Address : {{ address }}</div>
+    <div class="name">DOB : {{ DOB }}</div>
     <button v-on:click="calculateAge()">Get Age</button>
-    <div v-if="users.length === 1">
-      <div v-for="(user, index) in users" :key="index">
-        <div>
-          <img :src="user.imageUrl" alt="User Image" width="50" height="50">
-          Name: {{ user.name }}, Age: {{ user.saal }}
-        </div>
+    <div class="age" v-if="age !== ''">Your current age is : <input v-model="age" readonly></div>
+    <p class="under" v-if="age !== '' && age < 18">you are under age</p>
+    <p class="ok" v-if="age !== '' && age >= 18">you are ok to use the website</p>
+
+    <div v-for="(user, index) in users" :key="index">
+      <div class="data">
+        <img :src="user.imageUrl" width="50" height="50">
+        {{ user.Name }},{{ user.Age }}
       </div>
-      <div class="age" v-if="age !== ''">Your current age is : <input v-model="age" readonly></div>
-      <p class="under" v-if="age !== '' && age < 18">you are under age</p>
-      <p class="ok" v-if="age !== '' && age >= 18">you are ok to use the website</p>
     </div>
   </div>
 </template>
@@ -24,24 +22,20 @@ export default {
   name: 'App',
   data() {
     return {
-      name: "",
-      address: '',
-      year: "",
+      name: "Shivansh Singh",
+      address: "Noida",
+      DOB: "23/04/2022",
       age: "",
-      users: []
+      users: [{ Name: "rahul", Age: "24", imageUrl: "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg" },
+      { Name: "rohit", Age: "20", imageUrl: "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg" }]
     }
   },
   methods: {
     calculateAge() {
-      const selectedDate = new Date(this.year);
-      console.log(selectedDate)
-      const saal = new Date().getFullYear() - selectedDate.getFullYear();
-      console.log(saal)
-      this.age = saal
-      this.users.push({ name: this.name, saal, imageUrl: this.imageUrl })
-      this.name = "";
-      this.address = "";
-      this.year = "";
+      let date = this.DOB.split("/");
+      const saal = date[2];
+      this.age = 2023 - saal
+
       this.imageUrl = "";
     }
   }
@@ -54,15 +48,25 @@ export default {
   font-size: 28px;
   font-weight: 600;
 }
+
 .ok {
+  color: green;
   font-size: 28px;
   font-weight: 600;
 }
+
 .age {
   margin-top: 10px;
   font-size: 25px;
+  color: white;
 }
-.x {
+
+.data {
+  color: white;
+  font-size: 20px;
+}
+
+.bigbox {
   width: fit-content;
   text-align: center;
   border: 2px solid rgb(24, 19, 19);
@@ -71,20 +75,24 @@ export default {
   margin-right: 10%;
   background-color: rgb(47, 47, 63);
 }
+
 .name {
   margin-top: 10px;
   color: white;
   margin-bottom: 10px;
   font-size: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
+
 input {
   height: 20px;
   margin-left: 5px;
   margin-right: 5px;
 }
+
 button {
   height: 35px;
   margin-bottom: 10px;
   font-size: 25px;
-}
-</style>
+}</style>
